@@ -8,11 +8,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import Icon from '@/components/ui/icon';
+import GanttChart from '@/components/GanttChart';
 
 const Index = () => {
   const [cartItems, setCartItems] = useState([]);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('shop');
 
   const perfumes = [
     {
@@ -70,7 +72,18 @@ const Index = () => {
             <div className="flex items-center space-x-8">
               <h1 className="text-2xl font-bold text-black">PARFUM</h1>
               <nav className="hidden md:flex space-x-8">
-                <a href="#catalog" className="text-gray-700 hover:text-black transition-colors">Каталог</a>
+                <button 
+                  onClick={() => setActiveTab('shop')}
+                  className={`text-gray-700 hover:text-black transition-colors ${activeTab === 'shop' ? 'text-black font-medium' : ''}`}
+                >
+                  Магазин
+                </button>
+                <button 
+                  onClick={() => setActiveTab('gantt')}
+                  className={`text-gray-700 hover:text-black transition-colors ${activeTab === 'gantt' ? 'text-black font-medium' : ''}`}
+                >
+                  Проект
+                </button>
                 <a href="#about" className="text-gray-700 hover:text-black transition-colors">О нас</a>
                 <a href="#contact" className="text-gray-700 hover:text-black transition-colors">Контакты</a>
               </nav>
@@ -96,22 +109,25 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="bg-gradient-to-b from-gray-50 to-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-5xl font-bold text-black mb-6">
-            Изысканные ароматы<br />
-            для особых моментов
-          </h2>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Откройте для себя коллекцию премиальных парфюмов, 
-            созданных для тех, кто ценит качество и уникальность
-          </p>
-          <Button size="lg" className="bg-black hover:bg-gray-800 text-white px-8 py-3">
-            Смотреть каталог
-          </Button>
-        </div>
-      </section>
+      {/* Main Content */}
+      {activeTab === 'shop' ? (
+        <>
+          {/* Hero Section */}
+          <section className="bg-gradient-to-b from-gray-50 to-white py-20">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <h2 className="text-5xl font-bold text-black mb-6">
+                Изысканные ароматы<br />
+                для особых моментов
+              </h2>
+              <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+                Откройте для себя коллекцию премиальных парфюмов, 
+                созданных для тех, кто ценит качество и уникальность
+              </p>
+              <Button size="lg" className="bg-black hover:bg-gray-800 text-white px-8 py-3">
+                Смотреть каталог
+              </Button>
+            </div>
+          </section>
 
       {/* Catalog Section */}
       <section id="catalog" className="py-20">
@@ -281,6 +297,15 @@ const Index = () => {
           </div>
         </DialogContent>
       </Dialog>
+
+        </>
+      ) : (
+        <div className="py-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <GanttChart />
+          </div>
+        </div>
+      )}
 
       {/* Contact Dialog */}
       <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
